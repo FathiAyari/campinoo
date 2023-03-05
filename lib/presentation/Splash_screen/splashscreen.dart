@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 height: Constants.screenHeight * 0.1,
               ),
               Text(
-                Constants.HomeText,
+                "Bienvenue chez Campino",
                 style: TextStyle(color: Colors.white, fontSize: 25),
               ),
               SizedBox(
