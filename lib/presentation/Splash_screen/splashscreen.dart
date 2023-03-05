@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    var timer = Timer(Duration(seconds: 3), () => seen == 1 ? Get.toNamed(AppRoutes.login) : Get.toNamed(AppRoutes.onboarding));
+    Timer(Duration(seconds: 3), () => seen == 1 ? Get.toNamed(AppRoutes.login) : Get.toNamed(AppRoutes.onboarding));
   }
 
   @override
