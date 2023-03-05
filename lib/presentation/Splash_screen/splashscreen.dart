@@ -4,7 +4,6 @@ import 'package:campino/presentation/ressources/dimensions/constants.dart';
 import 'package:campino/presentation/ressources/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:lottie/lottie.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,11 +13,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  var resultSeen = GetStorage().read("seen");
-  var auth = GetStorage().read("auth");
-
-  var type_auth = GetStorage().read("type_auth");
-
   @override
   void initState() {
     super.initState();
@@ -27,7 +21,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
         body: Container(
             width: double.infinity,
@@ -40,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             child: Column(children: <Widget>[
               SizedBox(
-                height: size.height * 0.2,
+                height: Constants.screenHeight * 0.2,
               ),
               Image(
                 image: AssetImage('assets/images/logo.png'),
@@ -48,14 +41,14 @@ class _SplashScreenState extends State<SplashScreen> {
                 width: Constants.screenWidth * 0.3,
               ),
               SizedBox(
-                height: size.height * 0.1,
+                height: Constants.screenHeight * 0.1,
               ),
               Text(
                 Constants.HomeText,
                 style: TextStyle(color: Colors.white, fontSize: 25),
               ),
               SizedBox(
-                height: size.height * 0.1,
+                height: Constants.screenHeight * 0.1,
               ),
               Lottie.asset("assets/lotties/loading.json", height: Constants.screenHeight * 0.07),
             ])));
