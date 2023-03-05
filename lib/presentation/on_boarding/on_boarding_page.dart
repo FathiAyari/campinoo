@@ -17,17 +17,17 @@ PageController _controller = PageController();
 int currentPage = 0;
 List<Content> contentList = [
   Content(
-    img: 'images/camp.json',
+    img: 'assets/lotties/camp.json',
     description: 'êtes-vous intéressé par le camping en Tunisie? \n Campino est le mailleure solution pour vous .',
     title: 'Bienvenue chez Campino ',
   ),
   Content(
-    img: 'images/location.json',
+    img: 'assets/lotties/location.json',
     description: 'Nous vous proposons un guide et  un espace de partge de vous experience en camping ',
     title: '',
   ),
   Content(
-    img: 'images/cart.json',
+    img: 'assets/lotties/cart.json',
     description: 'Avec Campino vous êtes libre de vendre et acheter des equipement de camping en ligne',
     title: '',
   )
@@ -114,7 +114,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                     },
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                                primary: Colors.blueAccent,
+                                backgroundColor: Colors.blueAccent,
                               ),
                               child: (currentPage == contentList.length - 1) ? Text("Commencer") : Text('Suivant')),
                         ),

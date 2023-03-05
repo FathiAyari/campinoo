@@ -4,6 +4,7 @@ import 'package:campino/presentation/ressources/dimensions/constants.dart';
 import 'package:campino/presentation/ressources/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:lottie/lottie.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -13,10 +14,11 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  var seen = GetStorage().read("seen");
   @override
   void initState() {
     super.initState();
-    var timer = Timer(Duration(seconds: 3), () => Get.toNamed(AppRoutes.login));
+    var timer = Timer(Duration(seconds: 3), () => seen == 1 ? Get.toNamed(AppRoutes.login) : Get.toNamed(AppRoutes.onboarding));
   }
 
   @override
