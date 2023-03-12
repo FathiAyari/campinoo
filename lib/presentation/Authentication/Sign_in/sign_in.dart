@@ -1,6 +1,11 @@
 import 'dart:io';
 
+import 'package:campino/models/Users.dart';
+import 'package:campino/presentation/Authentication/Sign_in/components/infoMessage.dart';
 import 'package:campino/presentation/on_boarding/on_boarding_controller.dart';
+import 'package:campino/services/AuthServices.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -210,50 +215,32 @@ class _LoginScreenState extends State<SignInScreen> {
                                           Text('Connexion', style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic)),
                                       color: Colors.indigo,
                                       onPressed: () {
-                                        /*        if (_formkey.currentState!.validate()) {
+                                        if (_formkey.currentState!.validate()) {
                                           setState(() {
                                             isLoading = true;
                                           });
                                           AuthServices()
-                                              .signIn(emailController.text,
-                                                  passwordController.text)
+                                              .signIn(emailController.text, passwordController.text)
                                               .then((value) async {
                                             if (value) {
-                                              final FirebaseAuth auth =
-                                                  await FirebaseAuth.instance;
-                                              final User? user =
-                                                  await auth.currentUser;
+                                              final FirebaseAuth auth = await FirebaseAuth.instance;
+                                              final User? user = await auth.currentUser;
                                               final uid = user!.uid;
-                                              var UserData =
-                                                  await FirebaseFirestore
-                                                      .instance
-                                                      .collection('users')
-                                                      .doc(uid)
-                                                      .get();
+                                              var UserData = await FirebaseFirestore.instance.collection('users').doc(uid).get();
 
-                                              if (Cusers.fromJson(
-                                                          UserData.data()
-                                                              as Map<String,
-                                                                  dynamic>)
-                                                      .Role ==
-                                                  "admin") {
+                                              if (Cusers.fromJson(UserData.data() as Map<String, dynamic>).Role == "admin") {
                                                 // test de role
-                                                await controller.RememberAdmin(
-                                                    UserData.data() as Map<
-                                                        String,
-                                                        dynamic>); //.data() pour recuperer le donneées de document
-                                                Get.to(HomePageAdmin());
-                                              } else if (Cusers.fromJson(
-                                                          UserData.data()
-                                                              as Map<String,
-                                                                  dynamic>)
-                                                      .Role ==
+                                                await controller.RememberAdmin(UserData.data()
+                                                    as Map<String, dynamic>); //.data() pour recuperer le donneées de document
+                                                print("done admin");
+                                              } else if (Cusers.fromJson(UserData.data() as Map<String, dynamic>).Role ==
                                                   "client") {
-                                                await controller.RememberClient(
-                                                    UserData.data() as Map<
-                                                        String,
-                                                        dynamic>); //.data() pour recuperer le donneées de document
-                                                Get.to(HomePageClient());
+                                                await controller.RememberClient(UserData.data()
+                                                    as Map<String, dynamic>); //.data() pour recuperer le donneées de document
+                                                print("done client");
+                                              } else if (Cusers.fromJson(UserData.data() as Map<String, dynamic>).Role ==
+                                                  "gest") {
+                                                print("done gestionnaire");
                                               }
                                               setState(() {
                                                 isLoading = false;
@@ -268,12 +255,11 @@ class _LoginScreenState extends State<SignInScreen> {
                                                 },
                                                 lottieFile: "images/error.json",
                                                 action: "Ressayer",
-                                                message:
-                                                    "Merci de vierfier vos données ",
+                                                message: "Merci de vierfier vos données ",
                                               ).show(context);
                                             }
                                           });
-                                        }*/
+                                        }
                                       }))
                             ],
                           )),

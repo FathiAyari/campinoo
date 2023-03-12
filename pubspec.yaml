@@ -42,6 +42,9 @@ dependencies:
   get: ^4.6.1 # getx navigation entre les pages du projet
   get_storage: ^2.0.3 # gestion de la base de données locale (cache)
   image_picker: ^0.8.5
+  cloud_firestore: ^4.4.3
+  firebase_storage: ^11.0.15
+  fluttertoast: ^8.2.1
 
 
 dev_dependencies:

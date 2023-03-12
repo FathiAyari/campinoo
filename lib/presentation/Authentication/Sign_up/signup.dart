@@ -1,12 +1,16 @@
 import 'dart:io';
 
 import 'package:campino/presentation/ressources/dimensions/constants.dart';
+import 'package:campino/services/AuthServices.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../Sign_in/sign_in.dart';
+import 'alertTask.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -315,9 +319,9 @@ class _SignupScreenState extends State<SignupScreen> {
                                               ),
                                               color: Colors.indigo,
                                               onPressed: () async {
-                                                /*  if (_formkey.currentState!.validate() && !_image.isNull) {
+                                                if (_formkey.currentState!.validate() && !_image.isNull) {
                                                   setState(() {
-                                                    loading = true;t
+                                                    loading = true;
                                                   });
                                                   var image = FirebaseStorage.instance // instance
                                                       .ref(_image!.path); //ref=> esm de fichier fel storage
@@ -338,14 +342,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                                     setState(() {
                                                       loading = false;
                                                     });
-                                                    alertTask(
-                                                      lottieFile: "images/success.json",
-                                                      action: "Connecter",
-                                                      message: "Votre compte a été créé avec succès",
-                                                      press: () {
-                                                        Get.to(() => SignInScreen());
-                                                      },
-                                                    ).show(context);
+                                                    print("done");
                                                   } else {
                                                     setState(() {
                                                       loading = false;
@@ -368,7 +365,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                                       backgroundColor: Colors.grey,
                                                       textColor: Colors.white,
                                                       fontSize: 16.0);
-                                                }*/
+                                                }
                                               }))
                                     ],
                                   )),

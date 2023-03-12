@@ -1,4 +1,6 @@
+import 'package:campino/presentation/Authentication/Sign_up/alertTask.dart';
 import 'package:campino/presentation/ressources/dimensions/constants.dart';
+import 'package:campino/services/AuthServices.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -129,44 +131,35 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
                                             Text('Envoyer', style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic)),
                                         color: Colors.indigo,
                                         onPressed: () {
-                                          /*                   if (_formkey.currentState!
-                                              .validate()) {
+                                          if (_formkey.currentState!.validate()) {
                                             setState(() {
                                               loading = true;
                                             });
-                                            AuthServices()
-                                                .resetPassword(
-                                                    emailController.text)
-                                                .then((value) {
+                                            AuthServices().resetPassword(emailController.text).then((value) {
                                               setState(() {
                                                 loading = false;
                                               });
                                               if (value) {
                                                 alertTask(
-                                                  lottieFile:
-                                                      "images/success.json",
+                                                  lottieFile: "assets/images/success.json",
                                                   action: "Connecter",
-                                                  message:
-                                                      "Consultez vos mail svp",
+                                                  message: "Consultez vos mail svp",
                                                   press: () {
-                                                    Get.to(
-                                                        () => SignInScreen());
+                                                    Get.to(() => SignInScreen());
                                                   },
                                                 ).show(context);
                                               } else {
                                                 alertTask(
-                                                  lottieFile:
-                                                      "images/error.json",
+                                                  lottieFile: "assets/images/error.json",
                                                   action: "Ressayer",
-                                                  message:
-                                                      "compte n'existe pas ",
+                                                  message: "compte n'existe pas ",
                                                   press: () {
                                                     Navigator.pop(context);
                                                   },
                                                 ).show(context);
                                               }
                                             });
-                                          }*/
+                                          }
                                         }))
                               ],
                             )),
