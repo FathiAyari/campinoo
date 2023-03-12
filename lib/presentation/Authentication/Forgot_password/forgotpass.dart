@@ -1,4 +1,5 @@
 import 'package:campino/presentation/Authentication/Sign_up/alertTask.dart';
+import 'package:campino/presentation/components/input_field/input_field.dart';
 import 'package:campino/presentation/ressources/dimensions/constants.dart';
 import 'package:campino/services/AuthServices.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,8 +33,6 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
                 children: [
                   Column(children: [
                     Container(
-                      //margin: EdgeInsets.symmetric(horizontal: 20),
-                      //padding: const EdgeInsets.symmetric(horizontal: 20),
                       height: 350,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
@@ -52,7 +51,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
                           Container(
                             margin: EdgeInsets.only(top: 50),
                             child: Image(
-                              image: AssetImage('images/camping.png'),
+                              image: AssetImage('assets/images/logo.png'),
                               height: 90,
                               width: 90,
                             ),
@@ -74,47 +73,13 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
                       )),
                     ),
                     SizedBox(height: 30),
-
-                    //backgroundColor: Colors.white10,
-                    //appBar: AppBar(
-                    //backgroundColor: Colors.green,
-                    //title: Text('Forgot Password'),
-                    // centerTitle: true,
-                    //),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 16),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(23), boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 6,
-                          offset: Offset(0, 6),
-                        ),
-                      ]),
-                      height: 50,
-                      child: Form(
-                        key: _formkey,
-                        child: TextFormField(
+                    Form(
+                      key: _formkey,
+                      child: InputField(
+                          label: 'Email',
                           controller: emailController,
-                          validator: (Value) {
-                            if (Value!.isEmpty) return "s'il vous plait saisir un email valide ";
-                          },
-                          keyboardType: TextInputType.emailAddress,
-                          style: TextStyle(
-                            color: Colors.black87,
-                          ),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.only(top: 14),
-                            prefixIcon: Icon(
-                              Icons.email,
-                              color: Colors.indigo,
-                            ),
-                            hintText: 'exemple@gmail.com',
-                            labelStyle: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Colors.black38),
-                          ),
-                        ),
-                      ),
+                          textInputType: TextInputType.emailAddress,
+                          prefixWidget: Icon(Icons.email)),
                     ),
                     SizedBox(
                       height: 30,

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:campino/presentation/components/input_field/input_field.dart';
 import 'package:campino/presentation/ressources/dimensions/constants.dart';
 import 'package:campino/services/AuthServices.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -40,7 +41,7 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController gsmController = TextEditingController();
-  TextEditingController _passController = TextEditingController();
+  TextEditingController passController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -121,138 +122,40 @@ class _SignupScreenState extends State<SignupScreen> {
                               ],
                             ),
                           ),
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 16),
-                            alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15), boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 6,
-                                offset: Offset(0, 6),
-                              ),
-                            ]),
-                            height: 50,
-                            child: TextFormField(
-                              controller: nameController,
-                              validator: (Value) {
-                                if (Value!.isEmpty || !(RegExp(r'^[a-z A-Z]+$')).hasMatch(Value))
-                                  return "s'il vous plait saisir un nom valide ";
-                              },
-                              keyboardType: TextInputType.name,
-                              style: TextStyle(
-                                color: Colors.black87,
-                              ),
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.only(top: 14),
-                                prefixIcon: Icon(
-                                  Icons.person,
-                                  color: Colors.indigo,
-                                ),
-                                hintText: 'Nom Complet',
-                                hintStyle: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Colors.black38),
-                              ),
+                          InputField(
+                            label: "Nom et Prénom",
+                            controller: nameController,
+                            textInputType: TextInputType.text,
+                            prefixWidget: Icon(
+                              Icons.account_circle_outlined,
+                              color: Colors.indigo,
                             ),
                           ),
-                          SizedBox(height: 15),
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 16),
-                            alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15), boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 6,
-                                offset: Offset(0, 6),
-                              ),
-                            ]),
-                            height: 50,
-                            child: TextFormField(
-                              controller: emailcontroller,
-                              validator: (Value) {
-                                if (Value!.isEmpty) return "s'il vous plait saisir un email valide ";
-                              },
-                              keyboardType: TextInputType.emailAddress,
-                              style: TextStyle(
-                                color: Colors.black87,
-                              ),
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.only(top: 14),
-                                prefixIcon: Icon(
-                                  Icons.email,
-                                  color: Colors.indigo,
-                                ),
-                                hintText: 'exemple@gmail.com',
-                                hintStyle: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Colors.black38),
-                              ),
+                          InputField(
+                            label: "Email",
+                            controller: emailcontroller,
+                            textInputType: TextInputType.emailAddress,
+                            prefixWidget: Icon(
+                              Icons.email,
+                              color: Colors.indigo,
                             ),
                           ),
-                          SizedBox(height: 15),
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 16),
-                            alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15), boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 6,
-                                offset: Offset(0, 6),
-                              ),
-                            ]),
-                            height: 50,
-                            child: TextFormField(
-                              controller: gsmController,
-                              validator: (Value) {
-                                if (Value!.isEmpty || (RegExp(r'^[0..9]+$')).hasMatch(Value))
-                                  return "s'il vous plait saisir votre numéro de télephone  ";
-                                else if (Value.length > 8) return "le numéro de téléphone ne dépasse pas 8 chiffres  ";
-                              },
-                              style: TextStyle(
-                                color: Colors.black87,
-                              ),
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.only(top: 14),
-                                prefixIcon: Icon(
-                                  Icons.phone,
-                                  color: Colors.indigo,
-                                ),
-                                hintText: '12345678 ',
-                                hintStyle: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Colors.black38),
-                              ),
+                          InputField(
+                            label: "Numéro portable",
+                            controller: gsmController,
+                            textInputType: TextInputType.phone,
+                            prefixWidget: Icon(
+                              Icons.phone,
+                              color: Colors.indigo,
                             ),
                           ),
-                          SizedBox(height: 25),
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 16),
-                            alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15), boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 6,
-                                offset: Offset(0, 6),
-                              ),
-                            ]),
-                            height: 50,
-                            child: TextFormField(
-                              controller: _passController,
-                              validator: (Value) {
-                                if (Value!.isEmpty || Value.length < 8)
-                                  return " saisir un mot de passe  valide de 8 caractères  ";
-                              },
-                              obscureText: true,
-                              style: TextStyle(
-                                color: Colors.black87,
-                              ),
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.only(top: 14),
-                                prefixIcon: Icon(
-                                  Icons.lock,
-                                  color: Colors.indigo,
-                                ),
-                                hintText: 'Mot de passe',
-                                hintStyle: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Colors.black38),
-                              ),
+                          InputField(
+                            label: "Mot de passe",
+                            controller: passController,
+                            textInputType: TextInputType.visiblePassword,
+                            prefixWidget: Icon(
+                              Icons.lock,
+                              color: Colors.indigo,
                             ),
                           ),
                           Padding(
@@ -332,7 +235,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                                           .getDownloadURL();
                                                   bool check = await AuthServices().signUp(
                                                       emailcontroller.text,
-                                                      _passController.text,
+                                                      passController.text,
                                                       nameController.text,
                                                       imageUrl.toString(),
                                                       "client",
@@ -348,7 +251,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                                       loading = false;
                                                     });
                                                     alertTask(
-                                                      lottieFile: "images/error.json",
+                                                      lottieFile: "assets/lotties/error.json",
                                                       action: "Ressayer",
                                                       message: "Email déja existe",
                                                       press: () {

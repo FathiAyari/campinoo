@@ -32,6 +32,8 @@ class _InputFieldState extends State<InputField> {
               if (!emailValid) {
                 return "Format ivalide d'email";
               }
+            } else if (widget.textInputType == TextInputType.visiblePassword && widget.controller.text.length < 6) {
+              return "Mot de passe court";
             }
           },
           keyboardType: widget.textInputType,

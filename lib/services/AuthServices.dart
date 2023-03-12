@@ -17,17 +17,17 @@ class AuthServices {
     }
   }
 
-  Future<bool> signUp(String emailController, String passwordController, String Name, String urlController, String Role,
-      String GsmController) async {
+  Future<bool> signUp(
+      String emailController, String passwordController, String name, String imageUrl, String role, String GsmController) async {
     try {
       await auth.createUserWithEmailAndPassword(email: emailController, password: passwordController);
 
       await saveUser(Cusers(
           uid: user!.uid,
-          userName: Name,
-          Email: emailController,
-          Role: Role,
-          Url: urlController,
+          userName: name,
+          email: emailController,
+          role: role,
+          imageUrl: imageUrl,
           basket: [],
           Gsm: GsmController));
       print("done");
@@ -52,7 +52,6 @@ class AuthServices {
   saveUser(Cusers user) async {
     try {
       await userCollection.doc(user.uid).set(user.Tojson());
-      await userCollection.doc(user.uid).update({"income": 0, "expenses": 0});
     } catch (e) {}
   }
 }

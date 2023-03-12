@@ -2,46 +2,32 @@ class Cusers {
   String userName;
   String uid;
   String Gsm;
-
-  String Role;
-  String Email;
-  String Url;
+  String role;
+  String email;
+  String imageUrl;
   List basket;
 
-  /*
-
-
-  * */
-// from json to object cusers
   Cusers(
       {required this.uid,
       required this.userName,
-      required this.Email,
+      required this.email,
       required this.Gsm,
-      required this.Role,
+      required this.role,
       required this.basket,
-      required this.Url});
+      required this.imageUrl});
+
   factory Cusers.fromJson(Map<String, dynamic> json) {
     return Cusers(
       uid: json["uid"],
       userName: json["userName"],
-      Email: json["Email"],
-      Role: json["Role"],
+      email: json["email"],
+      role: json["role"],
       Gsm: json["Gsm"],
-      Url: json["Url"],
+      imageUrl: json["imageUrl"],
       basket: json["basket"],
     );
   }
-// from object to json
   Map<String, dynamic> Tojson() {
-    return {
-      "uid": uid,
-      "userName": userName,
-      "Email": Email,
-      "Role": Role,
-      "Url": Url,
-      "Gsm": Gsm,
-      "basket": []
-    };
+    return {"uid": uid, "userName": userName, "email": email, "role": role, "imageUrl": imageUrl, "Gsm": Gsm, "basket": []};
   }
 }

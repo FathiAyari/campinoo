@@ -184,17 +184,12 @@ class _LoginScreenState extends State<SignInScreen> {
                                               final uid = user!.uid;
                                               var UserData = await FirebaseFirestore.instance.collection('users').doc(uid).get();
 
-                                              if (Cusers.fromJson(UserData.data() as Map<String, dynamic>).Role == "admin") {
-                                                // test de role
-                                                await controller.RememberAdmin(UserData.data()
-                                                    as Map<String, dynamic>); //.data() pour recuperer le donneées de document
+                                              if (Cusers.fromJson(UserData.data() as Map<String, dynamic>).role == "admin") {
                                                 print("done admin");
-                                              } else if (Cusers.fromJson(UserData.data() as Map<String, dynamic>).Role ==
+                                              } else if (Cusers.fromJson(UserData.data() as Map<String, dynamic>).role ==
                                                   "client") {
-                                                await controller.RememberClient(UserData.data()
-                                                    as Map<String, dynamic>); //.data() pour recuperer le donneées de document
                                                 print("done client");
-                                              } else if (Cusers.fromJson(UserData.data() as Map<String, dynamic>).Role ==
+                                              } else if (Cusers.fromJson(UserData.data() as Map<String, dynamic>).role ==
                                                   "gest") {
                                                 print("done gestionnaire");
                                               }
