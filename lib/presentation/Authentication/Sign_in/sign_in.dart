@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:campino/models/Users.dart';
 import 'package:campino/presentation/Authentication/Sign_in/components/infoMessage.dart';
+import 'package:campino/presentation/components/input_field/input_field.dart';
 import 'package:campino/presentation/on_boarding/on_boarding_controller.dart';
+import 'package:campino/presentation/ressources/dimensions/constants.dart';
 import 'package:campino/services/AuthServices.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -69,6 +71,7 @@ class _LoginScreenState extends State<SignInScreen> {
   }
 
   bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -120,73 +123,26 @@ class _LoginScreenState extends State<SignInScreen> {
                       ],
                     )),
                   ),
-                  SizedBox(height: 80),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16),
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15), boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 6,
-                        offset: Offset(0, 6),
-                      ),
-                    ]),
-                    height: 50,
-                    child: TextFormField(
+                  Padding(
+                    padding: EdgeInsets.only(top: Constants.screenHeight * 0.1),
+                    child: InputField(
+                      label: "Email",
                       controller: emailController,
-                      validator: (Value) {
-                        if (Value!.isEmpty) return "s'il vous plait saisir un email valide ";
-                      },
-                      keyboardType: TextInputType.emailAddress,
-                      style: TextStyle(
-                        color: Colors.black87,
-                      ),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.only(top: 14),
-                        prefixIcon: Icon(Icons.email, color: Colors.indigo),
-                        hintText: 'exemple@gmail.com',
-                        hintStyle: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Colors.black38),
+                      textInputType: TextInputType.emailAddress,
+                      prefixWidget: Icon(
+                        Icons.email,
+                        color: Colors.indigo,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16),
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15), boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 6,
-                        offset: Offset(0, 6),
-                      ),
-                    ]),
-                    height: 50,
-                    child: TextFormField(
-                      controller: passwordController,
-                      validator: (Value) {
-                        if (Value!.isEmpty) return "s'il vous plait saisir un mot de passe valide ";
-                      },
-                      obscureText: true,
-                      style: TextStyle(
-                        color: Colors.black87,
-                      ),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.only(top: 14),
-                        prefixIcon: Icon(
-                          Icons.lock,
-                          color: Colors.indigo,
-                        ),
-                        hintText: 'Mot de passe',
-                        hintStyle: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Colors.black38),
-                      ),
+                  InputField(
+                    label: "Mot de passe",
+                    controller: passwordController,
+                    textInputType: TextInputType.visiblePassword,
+                    prefixWidget: Icon(
+                      Icons.lock,
+                      color: Colors.indigo,
                     ),
-                  ),
-                  SizedBox(
-                    height: 25,
                   ),
                   TextButton(
                       onPressed: () {
