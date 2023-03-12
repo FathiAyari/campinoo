@@ -52,15 +52,15 @@ class _InputFieldState extends State<InputField> {
             suffixIcon: widget.textInputType == TextInputType.visiblePassword
                 ? GestureDetector(
                     child: obscurePassword
-                        ? Icon(Icons.remove_red_eye, color: Colors.indigo)
-                        : Icon(Icons.remove_red_eye, color: Colors.red),
+                        ? Icon(Icons.visibility, color: Colors.indigo)
+                        : Icon(Icons.visibility_off, color: Colors.grey),
                     onTap: () {
                       setState(() {
                         obscurePassword = !obscurePassword;
                       });
                     },
                   )
-                : null
+                : null,
             hintText: widget.label,
             filled: true,
             fillColor: Colors.white,
