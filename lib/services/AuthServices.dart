@@ -47,6 +47,11 @@ class AuthServices {
     }
   }
 
+  Future<Cusers> getUserData() async {
+    var userData = await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
+    return Cusers.fromJson(userData.data()!);
+  }
+
   User? get user => auth.currentUser; //pour recuperer l'utilisateur courant
 
   saveUser(Cusers user) async {

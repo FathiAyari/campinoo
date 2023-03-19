@@ -23,7 +23,7 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   bool loading = false;
   File? _image;
-  String _selectedItem = 'item_2';
+  String role = 'client';
   Future getProfileImage() async {
     final image = await ImagePicker().pickImage(
       source: ImageSource.gallery,
@@ -169,7 +169,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 color: Colors.grey[200],
                               ),
                               child: DropdownButton<String>(
-                                value: _selectedItem,
+                                value: role,
                                 underline: SizedBox(
                                   height: 0,
                                 ),
@@ -182,7 +182,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                         style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Colors.black38),
                                       ),
                                     ),
-                                    value: 'item_1',
+                                    value: 'manager',
                                   ),
                                   DropdownMenuItem(
                                     child: Padding(
@@ -192,12 +192,12 @@ class _SignupScreenState extends State<SignupScreen> {
                                         style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Colors.black38),
                                       ),
                                     ),
-                                    value: 'item_2',
+                                    value: 'client',
                                   ),
                                 ],
                                 onChanged: (value) {
                                   setState(() {
-                                    _selectedItem = value!;
+                                    role = value!;
                                   });
                                 },
                               ),
@@ -238,14 +238,22 @@ class _SignupScreenState extends State<SignupScreen> {
                                                       passController.text,
                                                       nameController.text,
                                                       imageUrl.toString(),
-                                                      "client",
+                                                      role,
                                                       gsmController.text);
 
                                                   if (check) {
                                                     setState(() {
                                                       loading = false;
                                                     });
-                                                    print("done");
+                                                    AuthServices().getUserData().then((value) {
+                                                      if (value.role == 'client') {
+                                                        print("client here");
+                                                      } else if (value.role == 'manager') {
+                                                        print("manager here");
+                                                      } else {
+                                                        print("admin here");
+                                                      }
+                                                    });
                                                   } else {
                                                     setState(() {
                                                       loading = false;

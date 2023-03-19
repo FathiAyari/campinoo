@@ -1,13 +1,10 @@
 import 'dart:io';
 
-import 'package:campino/models/Users.dart';
 import 'package:campino/presentation/Authentication/Sign_in/components/infoMessage.dart';
 import 'package:campino/presentation/components/input_field/input_field.dart';
 import 'package:campino/presentation/on_boarding/on_boarding_controller.dart';
 import 'package:campino/presentation/ressources/dimensions/constants.dart';
 import 'package:campino/services/AuthServices.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -179,22 +176,17 @@ class _LoginScreenState extends State<SignInScreen> {
                                               .signIn(emailController.text, passwordController.text)
                                               .then((value) async {
                                             if (value) {
-                                              final FirebaseAuth auth = await FirebaseAuth.instance;
-                                              final User? user = await auth.currentUser;
-                                              final uid = user!.uid;
-                                              var UserData = await FirebaseFirestore.instance.collection('users').doc(uid).get();
-
-                                              if (Cusers.fromJson(UserData.data() as Map<String, dynamic>).role == "admin") {
-                                                print("done admin");
-                                              } else if (Cusers.fromJson(UserData.data() as Map<String, dynamic>).role ==
-                                                  "client") {
-                                                print("done client");
-                                              } else if (Cusers.fromJson(UserData.data() as Map<String, dynamic>).role ==
-                                                  "gest") {
-                                                print("done gestionnaire");
-                                              }
                                               setState(() {
                                                 isLoading = false;
+                                              });
+                                              AuthServices().getUserData().then((value) {
+                                                if (value.role == 'client') {
+                                                  print("client here");
+                                                } else if (value.role == 'manager') {
+                                                  print("manager here");
+                                                } else {
+                                                  print("admin here");
+                                                }
                                               });
                                             } else {
                                               setState(() {
