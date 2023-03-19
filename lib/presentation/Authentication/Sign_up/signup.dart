@@ -23,17 +23,17 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   bool loading = false;
   File? _image;
-  bool check = false;
   String _selectedItem = 'item_2';
   Future getProfileImage() async {
     final image = await ImagePicker().pickImage(
       source: ImageSource.gallery,
     );
 
-    setState(() {
-      _image = File(image!.path);
-      check = true;
-    });
+    if (image != null) {
+      setState(() {
+        _image = File(image.path);
+      });
+    }
   }
 
   final _formkey = GlobalKey<FormState>();
@@ -188,7 +188,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        'Utilisateur normal',
+                                        'Client',
                                         style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Colors.black38),
                                       ),
                                     ),

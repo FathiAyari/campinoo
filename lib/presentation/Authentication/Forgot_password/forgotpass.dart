@@ -106,7 +106,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
                                               });
                                               if (value) {
                                                 alertTask(
-                                                  lottieFile: "assets/images/success.json",
+                                                  lottieFile: "assets/lotties/success.json",
                                                   action: "Connecter",
                                                   message: "Consultez vos mail svp",
                                                   press: () {
@@ -115,7 +115,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
                                                 ).show(context);
                                               } else {
                                                 alertTask(
-                                                  lottieFile: "assets/images/error.json",
+                                                  lottieFile: "assets/lotties/error.json",
                                                   action: "Ressayer",
                                                   message: "compte n'existe pas ",
                                                   press: () {

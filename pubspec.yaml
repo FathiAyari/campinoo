@@ -45,6 +45,7 @@ dependencies:
   cloud_firestore: ^4.4.3
   firebase_storage: ^11.0.15
   fluttertoast: ^8.2.1
+  bottom_navy_bar: ^6.0.0
 
 
 dev_dependencies:

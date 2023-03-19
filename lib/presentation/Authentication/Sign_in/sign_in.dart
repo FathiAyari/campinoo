@@ -204,7 +204,7 @@ class _LoginScreenState extends State<SignInScreen> {
                                                 press: () {
                                                   Get.back();
                                                 },
-                                                lottieFile: "images/error.json",
+                                                lottieFile: "assets/lotties/error.json",
                                                 action: "Ressayer",
                                                 message: "Merci de vierfier vos données ",
                                               ).show(context);
