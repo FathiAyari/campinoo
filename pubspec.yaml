@@ -46,6 +46,7 @@ dependencies:
   firebase_storage: ^11.0.15
   fluttertoast: ^8.2.1
   bottom_navy_bar: ^6.0.0
+  readmore: ^2.2.0
 
 
 dev_dependencies:

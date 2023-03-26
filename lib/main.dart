@@ -1,8 +1,9 @@
-import 'package:campino/exercices/view/to_do_list_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+
+import 'presentation/ressources/router/router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,9 +19,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Campino ',
-      /*   onGenerateRoute: AppRouting.generateRoute,
-      initialRoute: AppRoutes.splashScreen,*/
-      home: TodoListView(),
+      onGenerateRoute: AppRouting.generateRoute,
+      initialRoute: AppRouting.splashScreen,
     );
   }
 }

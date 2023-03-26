@@ -4,6 +4,7 @@ import 'package:campino/presentation/Authentication/Sign_in/components/infoMessa
 import 'package:campino/presentation/components/input_field/input_field.dart';
 import 'package:campino/presentation/on_boarding/on_boarding_controller.dart';
 import 'package:campino/presentation/ressources/dimensions/constants.dart';
+import 'package:campino/presentation/ressources/router/router.dart';
 import 'package:campino/services/AuthServices.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -180,8 +181,9 @@ class _LoginScreenState extends State<SignInScreen> {
                                                 isLoading = false;
                                               });
                                               AuthServices().getUserData().then((value) {
+                                                AuthServices().saveUserLocally(value, value.role);
                                                 if (value.role == 'client') {
-                                                  print("client here");
+                                                  Navigator.pushNamed(context, AppRouting.homeClient);
                                                 } else if (value.role == 'manager') {
                                                   print("manager here");
                                                 } else {

@@ -1,15 +1,17 @@
 import 'package:campino/models/Users.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get_storage/get_storage.dart';
 
 class AuthServices {
+  var storage = GetStorage();
   final FirebaseAuth auth = FirebaseAuth.instance;
   var userCollection = FirebaseFirestore.instance.collection('users');
 
   Future<bool> signIn(String emailController, String passwordController) async {
     try {
       await auth.signInWithEmailAndPassword(email: emailController, password: passwordController);
-      print("done");
+
       return true;
     } on FirebaseException catch (e) {
       print(e.message);
@@ -17,8 +19,8 @@ class AuthServices {
     }
   }
 
-  Future<bool> signUp(
-      String emailController, String passwordController, String name, String imageUrl, String role, String GsmController) async {
+  Future<bool> signUp(String emailController, String passwordController, String name, String profileUrl, String role,
+      String GsmController) async {
     try {
       await auth.createUserWithEmailAndPassword(email: emailController, password: passwordController);
 
@@ -27,9 +29,9 @@ class AuthServices {
           userName: name,
           email: emailController,
           role: role,
-          imageUrl: imageUrl,
+          profileUrl: profileUrl,
           basket: [],
-          Gsm: GsmController));
+          gsm: GsmController));
       print("done");
       return true;
     } on FirebaseException catch (e) {
@@ -58,5 +60,18 @@ class AuthServices {
     try {
       await userCollection.doc(user.uid).set(user.Tojson());
     } catch (e) {}
+  }
+
+  saveUserLocally(Cusers user, String role) {
+    storage.write("role", role);
+    storage.write("auth", 1);
+    storage.write("user", {
+      'uid': user.uid,
+      'userName': user.userName,
+      'email': user.email,
+      'gsm': user.gsm,
+      'role': user.role,
+      'profileUrl': user.profileUrl,
+    });
   }
 }

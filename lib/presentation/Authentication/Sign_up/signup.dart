@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:campino/presentation/components/input_field/input_field.dart';
 import 'package:campino/presentation/ressources/dimensions/constants.dart';
+import 'package:campino/presentation/ressources/router/router.dart';
 import 'package:campino/services/AuthServices.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -246,8 +247,10 @@ class _SignupScreenState extends State<SignupScreen> {
                                                       loading = false;
                                                     });
                                                     AuthServices().getUserData().then((value) {
+                                                      AuthServices().saveUserLocally(value, value.role);
+
                                                       if (value.role == 'client') {
-                                                        print("client here");
+                                                        Navigator.pushNamed(context, AppRouting.homeClient);
                                                       } else if (value.role == 'manager') {
                                                         print("manager here");
                                                       } else {

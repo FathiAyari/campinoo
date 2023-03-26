@@ -15,10 +15,23 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   var seen = GetStorage().read("seen");
+  var role = GetStorage().read("role");
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 3), () => seen == 1 ? Get.toNamed(AppRoutes.login) : Get.toNamed(AppRoutes.onboarding));
+    Timer(Duration(seconds: 3), () {
+      if (seen == 1) {
+        if (role != null) {
+          if (role == 'client') {
+            Get.toNamed(AppRouting.homeClient);
+          }
+        } else {
+          Get.toNamed(AppRouting.login);
+        }
+      } else {
+        Get.toNamed(AppRouting.onboarding);
+      }
+    });
   }
 
   @override

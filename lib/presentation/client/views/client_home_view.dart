@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 
+import 'posts/posts.dart';
+
 class HomePageClient extends StatefulWidget {
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
@@ -15,22 +17,28 @@ class _BottomNavBarState extends State<HomePageClient> {
   int currentIndex = 0;
 
   List<Widget> screens = [
-    Container(
-      child: Text("home,"),
+    Center(
+      child: Posts(),
     ),
-    Container(
-      child: Text("market,"),
+    Center(
+      child: Container(
+        child: Text("Marché"),
+      ),
     ),
-    Container(
-      child: Text("messages,"),
+    Center(
+      child: Container(
+        child: Text("Messages"),
+      ),
     ),
-    Container(
-      child: Text("centers,"),
+    Center(
+      child: Container(
+        child: Text("Centres"),
+      ),
     ),
   ];
   List<BottomNavyBarItem> items = [
     BottomNavyBarItem(inactiveColor: Colors.redAccent, icon: Icon(Icons.home), title: Text("Accuiel")),
-    BottomNavyBarItem(inactiveColor: Colors.amber, icon: Icon(Icons.storefront_sharp), title: Text("Achats")),
+    BottomNavyBarItem(inactiveColor: Colors.amber, icon: Icon(Icons.storefront_sharp), title: Text("Marché")),
     BottomNavyBarItem(inactiveColor: Colors.green.withOpacity(0.5), icon: Icon(Icons.message), title: Text("Messages")),
     BottomNavyBarItem(inactiveColor: Colors.indigo, icon: Icon(Icons.location_on), title: Text("Centres")),
   ];
@@ -129,9 +137,16 @@ class _BottomNavBarState extends State<HomePageClient> {
                   padding: const EdgeInsets.all(8.0),
                   child: CircleAvatar(
                     radius: Constants.screenHeight * 0.1,
-                    backgroundImage: NetworkImage("${user['Url']}"),
+                    backgroundImage: NetworkImage("${user['profileUrl']}"),
                   ),
                 ),
+                Container(
+                    alignment: Alignment.center,
+                    width: double.infinity,
+                    child: Text(
+                      "${user['userName']}",
+                      style: TextStyle(color: Colors.blueAccent),
+                    )),
                 ListTile(
                   title: Text(
                     'Mon profile',
