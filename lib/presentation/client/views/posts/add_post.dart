@@ -168,7 +168,7 @@ class _AddPostState extends State<AddPost> {
                                       } else {
                                         var check = PostServices().createPost(PostModel(
                                             owner: user['uid'],
-                                            ownerImage: user['Url'],
+                                            ownerImage: user['profileUrl'],
                                             image: '',
                                             creationDate: DateTime.now(),
                                             description: subjectController.text));

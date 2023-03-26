@@ -247,7 +247,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                                       loading = false;
                                                     });
                                                     AuthServices().getUserData().then((value) {
-                                                      AuthServices().saveUserLocally(value, value.role);
+                                                      AuthServices().saveUserLocally(value);
 
                                                       if (value.role == 'client') {
                                                         Navigator.pushNamed(context, AppRouting.homeClient);

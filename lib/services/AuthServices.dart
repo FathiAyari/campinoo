@@ -1,6 +1,7 @@
 import 'package:campino/models/Users.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 
 class AuthServices {
@@ -32,7 +33,7 @@ class AuthServices {
           profileUrl: profileUrl,
           basket: [],
           gsm: GsmController));
-      print("done");
+
       return true;
     } on FirebaseException catch (e) {
       print(e);
@@ -62,9 +63,9 @@ class AuthServices {
     } catch (e) {}
   }
 
-  saveUserLocally(Cusers user, String role) {
-    storage.write("role", role);
-    storage.write("auth", 1);
+  saveUserLocally(Cusers user) {
+    storage.write("role", user.role);
+
     storage.write("user", {
       'uid': user.uid,
       'userName': user.userName,
@@ -73,5 +74,11 @@ class AuthServices {
       'role': user.role,
       'profileUrl': user.profileUrl,
     });
+  }
+
+  logOut(BuildContext context) {
+    storage.remove('role');
+    storage.remove('user');
+    Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
   }
 }

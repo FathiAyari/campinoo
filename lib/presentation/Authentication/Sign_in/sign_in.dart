@@ -181,7 +181,7 @@ class _LoginScreenState extends State<SignInScreen> {
                                                 isLoading = false;
                                               });
                                               AuthServices().getUserData().then((value) {
-                                                AuthServices().saveUserLocally(value, value.role);
+                                                AuthServices().saveUserLocally(value);
                                                 if (value.role == 'client') {
                                                   Navigator.pushNamed(context, AppRouting.homeClient);
                                                 } else if (value.role == 'manager') {

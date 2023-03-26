@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:campino/presentation/ressources/dimensions/constants.dart';
+import 'package:campino/services/AuthServices.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -208,7 +209,9 @@ class _BottomNavBarState extends State<HomePageClient> {
                                     color: Colors.blueAccent,
                                   ),
                                   child: TextButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        AuthServices().logOut(context);
+                                      },
                                       child: Text(
                                         "Oui",
                                         style: TextStyle(color: Colors.white),
