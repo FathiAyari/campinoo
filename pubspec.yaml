@@ -47,6 +47,7 @@ dependencies:
   fluttertoast: ^8.2.1
   bottom_navy_bar: ^6.0.0
   readmore: ^2.2.0
+  flutter_slidable: ^2.0.0
 
 
 dev_dependencies:

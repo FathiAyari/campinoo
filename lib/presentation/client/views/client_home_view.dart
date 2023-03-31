@@ -1,10 +1,14 @@
 import 'dart:io';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:campino/presentation/client/views/market_place/basket.dart';
+import 'package:campino/presentation/client/views/market_place/marketplace.dart';
+import 'package:campino/presentation/client/views/market_place/my_products.dart';
 import 'package:campino/presentation/ressources/dimensions/constants.dart';
 import 'package:campino/services/AuthServices.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'posts/posts.dart';
@@ -18,14 +22,8 @@ class _BottomNavBarState extends State<HomePageClient> {
   int currentIndex = 0;
 
   List<Widget> screens = [
-    Center(
-      child: Posts(),
-    ),
-    Center(
-      child: Container(
-        child: Text("Marché"),
-      ),
-    ),
+    Posts(),
+    MarketplaceScreen(),
     Center(
       child: Container(
         child: Text("Messages"),
@@ -164,7 +162,10 @@ class _BottomNavBarState extends State<HomePageClient> {
                     style: TextStyle(color: Colors.blueAccent),
                   ),
                   trailing: Icon(Icons.shopping_cart_sharp, color: Colors.blueAccent),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pop(context);
+                    Get.to(Basket());
+                  },
                 ),
                 ListTile(
                   title: Text(
@@ -172,7 +173,10 @@ class _BottomNavBarState extends State<HomePageClient> {
                     style: TextStyle(color: Colors.blueAccent),
                   ),
                   trailing: Icon(Icons.list_rounded, color: Colors.blueAccent),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pop(context);
+                    Get.to(MyProducts());
+                  },
                 ),
                 ListTile(
                   title: const Text(
