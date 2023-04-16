@@ -2,8 +2,6 @@ import 'package:campino/models/ProductModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../Models/Users.dart';
-
 class StoreServices {
   var user = GetStorage().read('user');
   Future<bool> createProduct(Product product) async {
@@ -16,20 +14,28 @@ class StoreServices {
     }
   }
 
-  Future<bool> addItemTobasket(String item) async {
+  Future<bool> addItemTobasket(String productId) async {
     try {
       String uid = user['uid'];
-      var oldList = await FirebaseFirestore.instance.collection("users").doc(uid).get();
-      var value = Cusers.fromJson(oldList.data() as Map<String, dynamic>).basket;
-
-      if (value.contains(item)) {
+      var basket = await FirebaseFirestore.instance.collection("users").doc(uid).collection("basket").get();
+      bool exists = false;
+      for (var data in basket.docs.toList()) {
+        if (data.get("productId") == productId) {
+          exists = true;
+        }
+      }
+      if (exists) {
         return false;
       } else {
-        value.add(item);
-
-        FirebaseFirestore.instance.collection("users").doc(uid).update({'basket': value});
+        FirebaseFirestore.instance
+            .collection("users")
+            .doc(uid)
+            .collection("basket")
+            .add({"productId": productId, "time": DateTime.now()});
         return true;
       }
+
+      return true;
     } catch (e) {
       print(e);
       return false;

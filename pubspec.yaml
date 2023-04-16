@@ -48,6 +48,7 @@ dependencies:
   bottom_navy_bar: ^6.0.0
   readmore: ^2.2.0
   flutter_slidable: ^2.0.0
+  url_launcher: ^6.1.10
 
 
 dev_dependencies:

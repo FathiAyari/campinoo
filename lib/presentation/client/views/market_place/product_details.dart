@@ -1,4 +1,5 @@
 import 'package:campino/presentation/Authentication/Sign_up/alertTask.dart';
+import 'package:campino/presentation/client/views/profile/profileScreen.dart';
 import 'package:campino/presentation/ressources/dimensions/constants.dart';
 import 'package:campino/services/StoreServices.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -82,9 +83,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: InkWell(
                                         onTap: () {
-                                          /* Get.to(ProfileScreen(
+                                          Get.to(ProfileScreen(
                                             uid: snapshot.data!.id,
-                                          ));*/
+                                          ));
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(

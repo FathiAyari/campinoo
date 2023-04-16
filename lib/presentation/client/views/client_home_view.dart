@@ -4,6 +4,7 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:campino/presentation/client/views/market_place/basket.dart';
 import 'package:campino/presentation/client/views/market_place/marketplace.dart';
 import 'package:campino/presentation/client/views/market_place/my_products.dart';
+import 'package:campino/presentation/client/views/messages/Messages.dart';
 import 'package:campino/presentation/ressources/dimensions/constants.dart';
 import 'package:campino/services/AuthServices.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'posts/posts.dart';
+import 'profile/profileScreen.dart';
 
 class HomePageClient extends StatefulWidget {
   @override
@@ -24,11 +26,7 @@ class _BottomNavBarState extends State<HomePageClient> {
   List<Widget> screens = [
     Posts(),
     MarketplaceScreen(),
-    Center(
-      child: Container(
-        child: Text("Messages"),
-      ),
-    ),
+    buildMessages(),
     Center(
       child: Container(
         child: Text("Centres"),
@@ -153,7 +151,7 @@ class _BottomNavBarState extends State<HomePageClient> {
                   ),
                   trailing: Icon(Icons.account_circle, color: Colors.blueAccent),
                   onTap: () {
-                    Navigator.pop(context);
+                    Get.to(ProfileScreen(uid: user['uid']));
                   },
                 ),
                 ListTile(
@@ -164,7 +162,7 @@ class _BottomNavBarState extends State<HomePageClient> {
                   trailing: Icon(Icons.shopping_cart_sharp, color: Colors.blueAccent),
                   onTap: () {
                     Navigator.pop(context);
-                    Get.to(Basket());
+                    Get.to(BasketWidget());
                   },
                 ),
                 ListTile(

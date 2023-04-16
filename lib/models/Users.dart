@@ -5,7 +5,6 @@ class Cusers {
   String role;
   String email;
   String profileUrl;
-  List basket;
 
   Cusers(
       {required this.uid,
@@ -13,7 +12,6 @@ class Cusers {
       required this.email,
       required this.gsm,
       required this.role,
-      required this.basket,
       required this.profileUrl});
 
   factory Cusers.fromJson(Map<String, dynamic> json) {
@@ -24,10 +22,16 @@ class Cusers {
       role: json["role"],
       gsm: json["gsm"],
       profileUrl: json["profileUrl"],
-      basket: json["basket"],
     );
   }
   Map<String, dynamic> Tojson() {
-    return {"uid": uid, "userName": userName, "email": email, "role": role, "profileUrl": profileUrl, "gsm": gsm, "basket": []};
+    return {
+      "uid": uid,
+      "userName": userName,
+      "email": email,
+      "role": role,
+      "profileUrl": profileUrl,
+      "gsm": gsm,
+    };
   }
 }

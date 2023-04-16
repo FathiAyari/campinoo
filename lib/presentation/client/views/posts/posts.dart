@@ -1,4 +1,6 @@
 import 'package:campino/Models/postModel.dart';
+import 'package:campino/presentation/client/views/posts/comments.dart';
+import 'package:campino/presentation/client/views/profile/profileScreen.dart';
 import 'package:campino/presentation/ressources/dimensions/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -74,9 +76,9 @@ class _PostsState extends State<Posts> {
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection("posts").orderBy("creationDate", descending: true).snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data!.size != 0) {
+                builder: (context, postsSnapshots) {
+                  if (postsSnapshots.hasData) {
+                    if (postsSnapshots.data!.size != 0) {
                       return RawScrollbar(
                         thumbColor: Colors.blueAccent,
                         controller: _controller,
@@ -84,17 +86,18 @@ class _PostsState extends State<Posts> {
                         radius: Radius.circular(20),
                         child: ListView.builder(
                             controller: _controller,
-                            itemCount: snapshot.data!.docs.length,
+                            itemCount: postsSnapshots.data!.docs.length,
                             itemBuilder: (context, index) {
                               List<PostModel> postslists = [];
-                              var listOfData = snapshot.data!.docs.toList();
+                              var listOfData = postsSnapshots.data!.docs.toList();
 
                               for (var center in listOfData) {
                                 postslists.add(PostModel.fromJson(center.data() as Map<String, dynamic>));
                               }
                               return Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(8),
                                 child: Container(
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
                                   decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
                                   width: double.infinity,
                                   child: Column(
@@ -110,18 +113,19 @@ class _PostsState extends State<Posts> {
                                               AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
                                             if (snapshot.hasData) {
                                               return InkWell(
-                                                onTap: () {},
+                                                onTap: () {
+                                                  Get.to(ProfileScreen(
+                                                    uid: snapshot.data!.id,
+                                                  ));
+                                                },
                                                 child: Row(
                                                   children: [
-                                                    Hero(
-                                                      tag: snapshot.data!.id,
+                                                    CircleAvatar(
+                                                      radius: Constants.screenHeight * 0.033,
+                                                      backgroundColor: Colors.green,
                                                       child: CircleAvatar(
-                                                        radius: Constants.screenHeight * 0.033,
-                                                        backgroundColor: Colors.green,
-                                                        child: CircleAvatar(
-                                                          backgroundImage: NetworkImage("${snapshot.data!.get("profileUrl")}"),
-                                                          radius: Constants.screenHeight * 0.030,
-                                                        ),
+                                                        backgroundImage: NetworkImage("${snapshot.data!.get("profileUrl")}"),
+                                                        radius: Constants.screenHeight * 0.030,
                                                       ),
                                                     ),
                                                     Padding(
@@ -144,6 +148,70 @@ class _PostsState extends State<Posts> {
                                                         ],
                                                       ),
                                                     ),
+                                                    Spacer(),
+                                                    IconButton(
+                                                        onPressed: () {
+                                                          AlertDialog alert = AlertDialog(
+                                                            title: Text("Signaler"),
+                                                            content: Text("êtes-vous sûr de vouloir signaler cet élément?"),
+                                                            actions: [
+                                                              // Define the actions that the user can take
+                                                              TextButton(
+                                                                child: Text("Annuler"),
+                                                                onPressed: () {
+                                                                  // Close the dialog
+                                                                  Navigator.of(context).pop();
+                                                                },
+                                                              ),
+                                                              TextButton(
+                                                                child: Text("Oui"),
+                                                                onPressed: () async {
+                                                                  List<dynamic> reports = postslists[index].reportingUser;
+
+                                                                  if (reports.contains(user['uid'])) {
+                                                                    final snackBar = SnackBar(
+                                                                      content: const Text('Vous avez deja signalé ce element'),
+                                                                      backgroundColor: (Colors.red),
+                                                                      action: SnackBarAction(
+                                                                        label: 'fermer',
+                                                                        textColor: Colors.white,
+                                                                        onPressed: () {},
+                                                                      ),
+                                                                    );
+                                                                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                                  } else {
+                                                                    reports.add(user['uid']);
+                                                                    await FirebaseFirestore.instance
+                                                                        .collection('posts')
+                                                                        .doc(postsSnapshots.data!.docs[index].id)
+                                                                        .update({'reportingUser': reports});
+                                                                    final snackBar = SnackBar(
+                                                                      content: const Text('publication  signalé   '),
+                                                                      backgroundColor: (Colors.red),
+                                                                      action: SnackBarAction(
+                                                                        label: 'fermer',
+                                                                        textColor: Colors.white,
+                                                                        onPressed: () {},
+                                                                      ),
+                                                                    );
+                                                                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                                  }
+
+                                                                  Navigator.of(context).pop();
+                                                                },
+                                                              ),
+                                                            ],
+                                                          );
+
+                                                          // Show the dialog
+                                                          showDialog(
+                                                            context: context,
+                                                            builder: (BuildContext context) {
+                                                              return alert;
+                                                            },
+                                                          );
+                                                        },
+                                                        icon: Icon(Icons.more_vert))
                                                   ],
                                                 ),
                                               );
@@ -163,6 +231,7 @@ class _PostsState extends State<Posts> {
                                                 child: Padding(
                                                   padding: const EdgeInsets.all(16.0),
                                                   child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       ReadMoreText(
                                                         '${postslists[index].description}',
@@ -196,6 +265,83 @@ class _PostsState extends State<Posts> {
                                               ),
                                             ),
                                           ]
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                              child: OutlinedButton.icon(
+                                                  style: ElevatedButton.styleFrom(
+                                                    side: BorderSide(
+                                                      width: 2.0,
+                                                      color: postslists[index].likes.contains(user['uid'])
+                                                          ? Colors.red
+                                                          : Colors.grey,
+                                                    ),
+                                                    primary: Colors.white,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(12),
+                                                    ),
+                                                  ),
+                                                  onPressed: () {
+                                                    List oldData = postslists[index].likes;
+                                                    if (oldData.contains(user['uid'])) {
+                                                      oldData.remove(user['uid']);
+                                                    } else {
+                                                      oldData.add(user['uid']);
+                                                    }
+                                                    postsSnapshots.data!.docs[index].reference.update({'likes': oldData});
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.favorite,
+                                                    color:
+                                                        postslists[index].likes.contains(user['uid']) ? Colors.red : Colors.grey,
+                                                  ),
+                                                  label: Text(
+                                                    '${postslists[index].likes.length}',
+                                                    style: TextStyle(
+                                                      color: postslists[index].likes.contains(user['uid'])
+                                                          ? Colors.red
+                                                          : Colors.grey,
+                                                    ),
+                                                  )),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                              child: OutlinedButton.icon(
+                                                style: ElevatedButton.styleFrom(
+                                                  side: BorderSide(width: 2.0, color: Colors.indigo),
+                                                  primary: Colors.white,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(12),
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  Get.to(Comments(postId: postsSnapshots.data!.docs[index].id));
+                                                },
+                                                icon: Icon(Icons.comment, color: Colors.indigo),
+                                                label: StreamBuilder<QuerySnapshot>(
+                                                  builder: (context, snapshpt) {
+                                                    if (snapshpt.hasData) {
+                                                      return Text("${snapshpt.data!.size}",
+                                                          style: TextStyle(color: Colors.indigo));
+                                                    } else {
+                                                      return Text("");
+                                                    }
+                                                  },
+                                                  stream: FirebaseFirestore.instance
+                                                      .collection('posts')
+                                                      .doc(postsSnapshots.data!.docs[index].id)
+                                                      .collection('comments')
+                                                      .snapshots(),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       )
                                     ],

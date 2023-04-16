@@ -151,6 +151,8 @@ class _AddPostState extends State<AddPost> {
                                             owner: user['uid'],
                                             ownerImage: user['profileUrl'],
                                             image: imageUrl,
+                                            likes: [],
+                                            reportingUser: [],
                                             creationDate: DateTime.now(),
                                             description: subjectController.text));
                                         check.then((value) {
@@ -170,8 +172,10 @@ class _AddPostState extends State<AddPost> {
                                             owner: user['uid'],
                                             ownerImage: user['profileUrl'],
                                             image: '',
+                                            reportingUser: [],
                                             creationDate: DateTime.now(),
-                                            description: subjectController.text));
+                                            description: subjectController.text,
+                                            likes: []));
                                         check.then((value) {
                                           if (value) {
                                             Fluttertoast.showToast(
