@@ -185,9 +185,9 @@ class _LoginScreenState extends State<SignInScreen> {
                                                 if (value.role == 'client') {
                                                   Navigator.pushNamed(context, AppRouting.homeClient);
                                                 } else if (value.role == 'manager') {
-                                                  print("manager here");
+                                                  Get.toNamed(AppRouting.homeManager);
                                                 } else {
-                                                  print("admin here");
+                                                  Get.toNamed(AppRouting.homeAdmin);
                                                 }
                                               });
                                             } else {

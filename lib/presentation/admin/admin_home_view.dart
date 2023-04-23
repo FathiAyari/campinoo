@@ -1,16 +1,9 @@
 import 'dart:io';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
-import 'package:campino/presentation/client/views/centers/user_map.dart';
-import 'package:campino/presentation/client/views/events/all_events.dart';
-import 'package:campino/presentation/client/views/market_place/basket.dart';
-import 'package:campino/presentation/client/views/market_place/marketplace.dart';
-import 'package:campino/presentation/client/views/market_place/my_products.dart';
+import 'package:campino/presentation/admin/posts/posts_dashboard.dart';
+import 'package:campino/presentation/admin/products/products_dashboard.dart';
 import 'package:campino/presentation/client/views/messages/Messages.dart';
-import 'package:campino/presentation/client/views/my_events/my_events_reservations.dart';
-import 'package:campino/presentation/client/views/my_reservations/my_reservations.dart';
-import 'package:campino/presentation/client/views/posts/posts.dart';
-import 'package:campino/presentation/client_services/client_services.dart';
 import 'package:campino/presentation/edit_profile/edit_profile.dart';
 import 'package:campino/presentation/ressources/dimensions/constants.dart';
 import 'package:campino/services/AuthServices.dart';
@@ -19,24 +12,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import 'profile/profileScreen.dart';
-
-class HomePageClient extends StatefulWidget {
+class AdmineHomeView extends StatefulWidget {
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
 }
 
-class _BottomNavBarState extends State<HomePageClient> {
+class _BottomNavBarState extends State<AdmineHomeView> {
   int currentIndex = 0;
 
-  List<Widget> screens = [Posts(), MarketplaceScreen(), buildMessages(), UserMapScreen()];
-  List<BottomNavyBarItem> items = [
-    BottomNavyBarItem(inactiveColor: Colors.redAccent, icon: Icon(Icons.home), title: Text("Accuiel")),
-    BottomNavyBarItem(inactiveColor: Colors.amber, icon: Icon(Icons.storefront_sharp), title: Text("Marché")),
-    BottomNavyBarItem(inactiveColor: Colors.green.withOpacity(0.5), icon: Icon(Icons.message), title: Text("Messages")),
-    BottomNavyBarItem(inactiveColor: Colors.indigo, icon: Icon(Icons.location_on), title: Text("Centres")),
+  List<Widget> screens = [
+    ProductsDashboard(),
+    buildMessages(),
+    PostsDashboard(),
   ];
-
+  List<BottomNavyBarItem> items = [
+    BottomNavyBarItem(inactiveColor: Colors.redAccent, icon: Icon(Icons.shopping_cart), title: Text("Marché")),
+    BottomNavyBarItem(inactiveColor: Colors.green.withOpacity(0.5), icon: Icon(Icons.message), title: Text("Messages")),
+    BottomNavyBarItem(inactiveColor: Colors.amber, icon: Icon(Icons.settings), title: Text("Publications")),
+  ];
   Widget positive() {
     return Container(
       decoration: BoxDecoration(color: Colors.blueAccent),
@@ -77,30 +70,16 @@ class _BottomNavBarState extends State<HomePageClient> {
     return true;
   }
 
-  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: WillPopScope(
-        onWillPop: avoidRteurnButton,
+    return WillPopScope(
+      onWillPop: avoidRteurnButton,
+      child: SafeArea(
         child: Scaffold(
-            key: _scaffoldKey,
             backgroundColor: Color(0xffe3eaef),
             appBar: AppBar(
                 elevation: 0,
                 backgroundColor: Colors.transparent,
-                actions: [
-                  if (currentIndex == 3)
-                    IconButton(
-                        onPressed: () {
-                          Get.to(AllEvenets());
-                        },
-                        icon: Icon(
-                          Icons.event,
-                          color: Colors.green,
-                        ))
-                ],
                 leading: Builder(
                   builder: (BuildContext context) {
                     return IconButton(
@@ -156,84 +135,6 @@ class _BottomNavBarState extends State<HomePageClient> {
                       "${user['userName']}",
                       style: TextStyle(color: Colors.blueAccent),
                     )),
-                ListTile(
-                  title: Text(
-                    'Mon profile',
-                    style: TextStyle(color: Colors.blueAccent),
-                  ),
-                  trailing: Icon(Icons.account_circle, color: Colors.blueAccent),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Get.to(ProfileScreen(uid: user['uid']));
-                  },
-                ),
-                ListTile(
-                  title: Text(
-                    'Mon panier',
-                    style: TextStyle(color: Colors.blueAccent),
-                  ),
-                  trailing: Icon(Icons.shopping_cart_sharp, color: Colors.blueAccent),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Get.to(BasketWidget());
-                  },
-                ),
-                ListTile(
-                  title: Text(
-                    'Mes produits',
-                    style: TextStyle(color: Colors.blueAccent),
-                  ),
-                  trailing: Icon(Icons.list_rounded, color: Colors.blueAccent),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Get.to(MyProducts());
-                  },
-                ),
-                ListTile(
-                  title: const Text(
-                    'à propos de nous',
-                    style: TextStyle(color: Colors.blueAccent),
-                  ),
-                  trailing: Icon(Icons.question_mark_outlined, color: Colors.blueAccent),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  title: const Text(
-                    'Service Client',
-                    style: TextStyle(color: Colors.blueAccent),
-                  ),
-                  trailing: Icon(Icons.room_service, color: Colors.blueAccent),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Get.to(ClientServices());
-                  },
-                ),
-                ListTile(
-                  title: const Text(
-                    'Mes evenements',
-                    style: TextStyle(color: Colors.blueAccent),
-                  ),
-                  trailing: Icon(Icons.event_available, color: Colors.blueAccent),
-                  onTap: () {
-                    Navigator.pop(context);
-
-                    Get.to(MyEvenetsReservations());
-                  },
-                ),
-                ListTile(
-                  title: const Text(
-                    'Mes reservations',
-                    style: TextStyle(color: Colors.blueAccent),
-                  ),
-                  trailing: Icon(Icons.book_rounded, color: Colors.blueAccent),
-                  onTap: () {
-                    Navigator.pop(context);
-
-                    Get.to(MyReservations());
-                  },
-                ),
                 ListTile(
                   title: const Text(
                     'Parametrage de profil',

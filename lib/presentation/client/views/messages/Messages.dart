@@ -79,97 +79,113 @@ class _buildMessagesState extends State<buildMessages> {
                           i--;
                         }
                       }
-                      return Column(
-                        children: [
-                          Expanded(
-                              child: ListView.builder(
-                            itemCount: msg.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  decoration:
-                                      BoxDecoration(color: Colors.cyan.withOpacity(0.2), borderRadius: BorderRadius.circular(5)),
-                                  child: InkWell(
-                                    onTap: () async {
-                                      var destination = await FirebaseFirestore.instance
-                                          .collection("users")
-                                          .where(
-                                            "uid",
-                                            isEqualTo: this.user['uid'] == msg[index]["getDestination"]
-                                                ? "${msg[index]["getSender"]}"
-                                                : "${msg[index]["getDestination"]}",
-                                          )
-                                          .get();
-                                      var user = Cusers.fromJson(destination.docs.toList().first.data() as Map<String, dynamic>);
+                      if (msg.isNotEmpty) {
+                        return Column(
+                          children: [
+                            Expanded(
+                                child: ListView.builder(
+                              itemCount: msg.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.cyan.withOpacity(0.2), borderRadius: BorderRadius.circular(5)),
+                                    child: InkWell(
+                                      onTap: () async {
+                                        var destination = await FirebaseFirestore.instance
+                                            .collection("users")
+                                            .where(
+                                              "uid",
+                                              isEqualTo: this.user['uid'] == msg[index]["getDestination"]
+                                                  ? "${msg[index]["getSender"]}"
+                                                  : "${msg[index]["getDestination"]}",
+                                            )
+                                            .get();
+                                        var user =
+                                            Cusers.fromJson(destination.docs.toList().first.data() as Map<String, dynamic>);
 
-                                      Get.to(Messenger(
-                                        user: user,
-                                      ));
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                                      child: StreamBuilder<QuerySnapshot>(
-                                          stream: msg[index]['getSender'] == user['uid']
-                                              ? FirebaseFirestore.instance
-                                                  .collection("users")
-                                                  .where('uid', isEqualTo: msg[index]["getDestination"])
-                                                  .snapshots()
-                                              : FirebaseFirestore.instance
-                                                  .collection("users")
-                                                  .where('uid', isEqualTo: msg[index]["getSender"])
-                                                  .snapshots(),
-                                          builder: (BuildContext context, snapshot) {
-                                            if (snapshot.hasData) {
-                                              return Row(
-                                                children: [
-                                                  CircleAvatar(
-                                                      radius: 33,
-                                                      backgroundImage:
-                                                          NetworkImage("${snapshot.data!.docs[0].get('profileUrl')}")),
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: Column(
-                                                        children: [
-                                                          Text(
-                                                            "${snapshot.data!.docs[0].get('userName')}",
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Expanded(
-                                                                child: Text(
-                                                                  "${msg[index]['getSender'] == user['uid'] ? 'Vous ' : ''} ${msg[index]["getText"]}",
-                                                                  overflow: TextOverflow.ellipsis,
-                                                                  maxLines: 1,
+                                        Get.to(Messenger(
+                                          user: user,
+                                        ));
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                                        child: StreamBuilder<QuerySnapshot>(
+                                            stream: msg[index]['getSender'] == user['uid']
+                                                ? FirebaseFirestore.instance
+                                                    .collection("users")
+                                                    .where('uid', isEqualTo: msg[index]["getDestination"])
+                                                    .snapshots()
+                                                : FirebaseFirestore.instance
+                                                    .collection("users")
+                                                    .where('uid', isEqualTo: msg[index]["getSender"])
+                                                    .snapshots(),
+                                            builder: (BuildContext context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                return Row(
+                                                  children: [
+                                                    CircleAvatar(
+                                                        radius: 33,
+                                                        backgroundImage:
+                                                            NetworkImage("${snapshot.data!.docs[0].get('profileUrl')}")),
+                                                    Expanded(
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Column(
+                                                          children: [
+                                                            Text(
+                                                              "${snapshot.data!.docs[0].get('userName')}",
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Expanded(
+                                                                  child: Text(
+                                                                    "${msg[index]['getSender'] == user['uid'] ? 'Vous ' : ''} ${msg[index]["getText"]}",
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                    maxLines: 1,
+                                                                  ),
                                                                 ),
-                                                              ),
-                                                              Container(
-                                                                child: Text("${msg[index]["getTime"]}"),
-                                                              )
-                                                            ],
-                                                          )
-                                                        ],
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                Container(
+                                                                  child: Text("${msg[index]["getTime"]}"),
+                                                                )
+                                                              ],
+                                                            )
+                                                          ],
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                        ),
                                                       ),
-                                                    ),
-                                                  )
-                                                ],
-                                              );
-                                            } else {
-                                              return Center(child: CircularProgressIndicator());
-                                            }
-                                          }),
+                                                    )
+                                                  ],
+                                                );
+                                              } else {
+                                                return Center(child: CircularProgressIndicator());
+                                              }
+                                            }),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                            padding: EdgeInsets.all(20),
-                            controller: controller,
-                          )),
-                        ],
-                      );
+                                );
+                              },
+                              padding: EdgeInsets.all(20),
+                              controller: controller,
+                            )),
+                          ],
+                        );
+                      } else {
+                        return Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/images/message.png',
+                                height: Constants.screenHeight * 0.1,
+                              ),
+                              Text("Pas des messages encore.")
+                            ],
+                          ),
+                        );
+                      }
                     } else
                       return Container(
                         child: Column(

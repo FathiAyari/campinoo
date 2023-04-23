@@ -24,6 +24,10 @@ class _SplashScreenState extends State<SplashScreen> {
         if (role != null) {
           if (role == 'client') {
             Get.toNamed(AppRouting.homeClient);
+          } else if (role == 'admin') {
+            Get.toNamed(AppRouting.homeAdmin);
+          } else {
+            Get.toNamed(AppRouting.homeManager);
           }
         } else {
           Get.toNamed(AppRouting.login);

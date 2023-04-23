@@ -1,21 +1,25 @@
 class CenterModel {
-  String id;
+  String? id;
   String ownerId;
   String name;
   double latitude;
   double langitude;
   DateTime creationDate;
+  List<dynamic> images;
   String adresse;
+  String? description;
   String Gsm;
 
   CenterModel({
     required this.name,
+    required this.images,
     required this.Gsm,
+    this.description,
     required this.creationDate,
     required this.latitude,
     required this.langitude,
     required this.adresse,
-    required this.id,
+    this.id,
     required this.ownerId,
   });
 
@@ -28,17 +32,23 @@ class CenterModel {
       creationDate: json["creationDate"].toDate(),
       adresse: json["adresse"],
       id: json["id"],
+      images: json["images"],
+      description: json["description"],
       ownerId: json["ownerId"],
     );
   }
-  Map<String, dynamic> Tojson() {
+  Map<String, dynamic> Tojson(String id) {
     return {
       "name": name,
+      'id': id,
+      "ownerId": ownerId,
       "latitude": latitude,
       "langitude": langitude,
       "creationDate": creationDate,
       "adresse": adresse,
       "Gsm": Gsm,
+      'images': images,
+      'description': description
     };
   }
 }

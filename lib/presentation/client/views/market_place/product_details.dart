@@ -5,6 +5,7 @@ import 'package:campino/services/StoreServices.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../../../Models/ProductModel.dart';
@@ -18,6 +19,7 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+  var user = GetStorage().read('user');
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -129,38 +131,39 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         ],
                                       ),
                                     ),
-                                    Container(
-                                      width: double.infinity,
-                                      child: ElevatedButton.icon(
-                                          style: ElevatedButton.styleFrom(primary: Colors.orangeAccent),
-                                          icon: Icon(Icons.add),
-                                          onPressed: widget.product.sold
-                                              ? null
-                                              : () {
-                                                  StoreServices().addItemTobasket(widget.product.id).then((value) {
-                                                    if (value) {
-                                                      alertTask(
-                                                        action: "Fermer",
-                                                        press: () {
-                                                          Navigator.pop(context);
-                                                        },
-                                                        lottieFile: "assets/lotties/success.json",
-                                                        message: "Votre produit a été ajouté avec succès",
-                                                      ).show(context);
-                                                    } else {
-                                                      alertTask(
-                                                        action: "Fermer",
-                                                        press: () {
-                                                          Navigator.pop(context);
-                                                        },
-                                                        lottieFile: "assets/lotties/error.json",
-                                                        message: "Votre produit est déja existe dans le panier",
-                                                      ).show(context);
-                                                    }
-                                                  });
-                                                },
-                                          label: Text("Ajouter au panier")),
-                                    )
+                                    if (user['role'] == 'client')
+                                      Container(
+                                        width: double.infinity,
+                                        child: ElevatedButton.icon(
+                                            style: ElevatedButton.styleFrom(primary: Colors.orangeAccent),
+                                            icon: Icon(Icons.add),
+                                            onPressed: widget.product.sold
+                                                ? null
+                                                : () {
+                                                    StoreServices().addItemTobasket(widget.product.id).then((value) {
+                                                      if (value) {
+                                                        alertTask(
+                                                          action: "Fermer",
+                                                          press: () {
+                                                            Navigator.pop(context);
+                                                          },
+                                                          lottieFile: "assets/lotties/success.json",
+                                                          message: "Votre produit a été ajouté avec succès",
+                                                        ).show(context);
+                                                      } else {
+                                                        alertTask(
+                                                          action: "Fermer",
+                                                          press: () {
+                                                            Navigator.pop(context);
+                                                          },
+                                                          lottieFile: "assets/lotties/error.json",
+                                                          message: "Votre produit est déja existe dans le panier",
+                                                        ).show(context);
+                                                      }
+                                                    });
+                                                  },
+                                            label: Text("Ajouter au panier")),
+                                      )
                                   ],
                                 );
                               } else {
