@@ -134,18 +134,15 @@ class _CenterDetailsUserState extends State<CenterDetailsUser> {
                 ),
                 centerModel.images.isEmpty
                     ? Center(
-                        child: Container(
-                          height: Constants.screenHeight * 0.5,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Lottie.asset("assets/lotties/error.json", repeat: false, height: Constants.screenHeight * 0.1),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text("Pas des images pour le moment "),
-                              ),
-                            ],
-                          ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Lottie.asset("assets/lotties/error.json", repeat: false, height: Constants.screenHeight * 0.1),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("Pas des images pour le moment "),
+                            ),
+                          ],
                         ),
                       )
                     : Expanded(

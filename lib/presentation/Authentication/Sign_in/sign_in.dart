@@ -58,7 +58,7 @@ class _LoginScreenState extends State<SignInScreen> {
             ),
           )),
     );
-  } // fermeture de l'application
+  }
 
   Widget Negative(BuildContext context) {
     return TextButton(

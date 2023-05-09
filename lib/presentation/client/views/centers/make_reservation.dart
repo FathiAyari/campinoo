@@ -90,7 +90,7 @@ class _MakereservationState extends State<Makereservation> {
                         ).then((value) {
                           if (value != null) {
                             setState(() {
-                              start = value;
+                              end = value;
                             });
                           }
                         });
@@ -110,7 +110,7 @@ class _MakereservationState extends State<Makereservation> {
                               if (_formKey.currentState!.validate()) {
                                 if (start.isAfter(end)) {
                                   final snackBar = SnackBar(
-                                    content: const Text('date de debut doit etre superieur au date de fin'),
+                                    content: const Text('date de fin doit etre superieur au date de debut'),
                                     backgroundColor: (Colors.red),
                                     action: SnackBarAction(
                                       label: 'fermer',
