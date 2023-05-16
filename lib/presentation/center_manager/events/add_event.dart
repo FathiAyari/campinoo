@@ -132,7 +132,7 @@ class _AddEvenetState extends State<AddEvenet> {
                         ).then((value) {
                           if (value != null) {
                             setState(() {
-                              start = value;
+                              end = value;
                             });
                           }
                         });

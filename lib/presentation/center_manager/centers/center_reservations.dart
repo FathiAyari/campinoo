@@ -96,6 +96,27 @@ class _ReservationsState extends State<MyCenterReservations> {
                             ),
                           ],
                         ),
+                        endActionPane: ActionPane(
+                          motion: const ScrollMotion(),
+                          children: [
+                            SlidableAction(
+                              backgroundColor: Colors.blue,
+                              foregroundColor: Colors.white,
+                              icon: Icons.close,
+                              label: 'Fermer',
+                              onPressed: (BuildContext ctx) {},
+                            ),
+                            SlidableAction(
+                              onPressed: (BuildContext ctx) {
+                                snapshot.data!.docs[index].reference.delete();
+                              },
+                              backgroundColor: Colors.red,
+                              foregroundColor: Colors.white,
+                              icon: Icons.delete,
+                              label: "Supprimer",
+                            ),
+                          ],
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(

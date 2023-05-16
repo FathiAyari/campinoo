@@ -90,28 +90,6 @@ class _EventsReservationsState extends State<EventsReservations> {
                                 label: "Refuser"),
                           ],
                         ),
-                        endActionPane: ActionPane(
-                          motion: const ScrollMotion(),
-                          children: [
-                            SlidableAction(
-                              backgroundColor: Colors.green,
-                              foregroundColor: Colors.white,
-                              icon: Icons.done,
-                              label: 'Refuser',
-                              onPressed: (BuildContext ctx) {
-                                snapshot.data!.docs[index].reference.delete();
-                              },
-                            ),
-                            SlidableAction(
-                                onPressed: (BuildContext ctx) async {
-                                  snapshot.data!.docs[index].reference.delete();
-                                },
-                                backgroundColor: Colors.red,
-                                foregroundColor: Colors.white,
-                                icon: Icons.delete,
-                                label: "Refuser"),
-                          ],
-                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
